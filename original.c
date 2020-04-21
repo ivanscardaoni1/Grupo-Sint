@@ -14,7 +14,6 @@ void aplicoAutomata (int [][7], char , int);
 
 
 int main(int argc, const char * argv[]) {
-   int ultimoEstado = 0;
    int automata[7][7] = {{2, 1, 1, 6, 6, 0, 6},{1, 1, 1, 6, 6, 0, 6},{5, 5, 6, 3, 6, 0, 6},{4, 4, 4, 6, 4, 0, 6},{4, 4, 4, 6, 4, 0, 6},{5, 5, 6, 6, 6, 0, 6},{6, 6, 6, 6, 6, 0, 6}};
    
     FILE * archivoEntrada = fopen("entrada.txt","r+");
@@ -26,21 +25,22 @@ int main(int argc, const char * argv[]) {
     }
     
     char caracter;
-   
+   int ultimoEstado = 0;
     
     while(feof(archivoEntrada) == 0) {
         caracter = fgetc(archivoEntrada);
         //printf("%c",caracter);
+        
         if(caracter == ',' && ultimoEstado == 0 ){fprintf(archivoSalida, "%s", "No hay palabra ");} else
         if(caracter == ',' && ultimoEstado == 1){fprintf(archivoSalida, "%s", "Constante decimal ");} else
         if(caracter == ',' && ultimoEstado == 2){fprintf(archivoSalida, "%s", "Constante octal = a 0 ");} else
         if(caracter == ',' && ultimoEstado == 3){fprintf(archivoSalida, "%s", "Constante invalida ");} else
-        if(caracter == ',' &&ultimoEstado == 4){fprintf(archivoSalida, "%s", "Constante hexadecimal ");} else
+        if(caracter == ',' && ultimoEstado == 4){fprintf(archivoSalida, "%s", "Constante hexadecimal ");} else
         if(caracter == ',' && ultimoEstado == 5){fprintf(archivoSalida, "%s", "Constante octal ");} else
-        if(caracter == ',' && ultimoEstado == 5){fprintf(archivoSalida, "%s", "Constante hexadecimal");}
+        if(caracter == ',' && ultimoEstado == 6){fprintf(archivoSalida, "%s", "Constante invalida");}
         
     
-        aplicoAutomata (automata, caracter, ultimoEstado);
+     ultimoEstado = aplicoAutomata (automata, caracter, ultimoEstado);
 
             }
     fclose(archivoEntrada);
@@ -49,7 +49,7 @@ int main(int argc, const char * argv[]) {
     return 0;
             }
 
-void aplicoAutomata (int M[][7], char a, int b){
+int aplicoAutomata (int M[][7], char a, int b){
     int i = 0;
     int j = 0;
     if (a == '0'){j = 0;} else
@@ -60,5 +60,5 @@ void aplicoAutomata (int M[][7], char a, int b){
     if (a == ','){ j = 5;} else
         { j = 6;}
     b = i = M[i][j];
-    
+    return b;
 }

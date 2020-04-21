@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void aplicoAutomata (int [][7], char , int);
+int aplicoAutomata (int [][7], char , int);
 
 
 

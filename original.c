@@ -31,15 +31,14 @@ int main(int argc, const char * argv[]) {
     while(feof(archivoEntrada) == 0) {
         caracter = fgetc(archivoEntrada);
         //printf("%c",caracter);
-        if(caracter == ','){
-            if(ultimoEstado == 0 ){fprintf(archivoSalida, "%s", "No hay palabra ");} else
-            if(ultimoEstado == 1){fprintf(archivoSalida, "%s", "Constante decimal ");} else
-            if(ultimoEstado == 2){fprintf(archivoSalida, "%s", "Constante octal = a 0 ");} else
-            if(ultimoEstado == 3){fprintf(archivoSalida, "%s", "Constante invalida ");} else
-            if(ultimoEstado == 4){fprintf(archivoSalida, "%s", "Constante hexadecimal ");} else
-            if(ultimoEstado == 5){fprintf(archivoSalida, "%s", "Constante octal ");} else
-            if(ultimoEstado == 5){fprintf(archivoSalida, "%s", "Constante hexadecimal");}
-            }
+        if(caracter == ',' && ultimoEstado == 0 ){fprintf(archivoSalida, "%s", "No hay palabra ");} else
+        if(caracter == ',' && ultimoEstado == 1){fprintf(archivoSalida, "%s", "Constante decimal ");} else
+        if(caracter == ',' && ultimoEstado == 2){fprintf(archivoSalida, "%s", "Constante octal = a 0 ");} else
+        if(caracter == ',' && ultimoEstado == 3){fprintf(archivoSalida, "%s", "Constante invalida ");} else
+        if(caracter == ',' &&ultimoEstado == 4){fprintf(archivoSalida, "%s", "Constante hexadecimal ");} else
+        if(caracter == ',' && ultimoEstado == 5){fprintf(archivoSalida, "%s", "Constante octal ");} else
+        if(caracter == ',' && ultimoEstado == 5){fprintf(archivoSalida, "%s", "Constante hexadecimal");}
+        
     
         aplicoAutomata (automata, caracter, ultimoEstado);
 

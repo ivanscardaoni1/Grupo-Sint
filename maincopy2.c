@@ -9,16 +9,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void aplicoAutomata (int [][7], char , int);
 
+//int evaluador (int, int*, int*);
+void aplicoAutomata (int M[][7], char, int*, int*);
+int automata[7][7] = {{2, 1, 1, 6, 6, 0, 6},{1, 1, 1, 6, 6, 0, 6},{5, 5, 6, 3, 6, 0, 6},{4, 4, 4, 6, 4, 0, 6},{4, 4, 4, 6, 4, 0, 6},{5, 5, 6, 6, 6, 0, 6},{6, 6, 6, 6, 6, 0, 6}};
 
 
 int main(int argc, const char * argv[]) {
+   
+   
    int ultimoEstado = 0;
-   int automata[7][7] = {{2, 1, 1, 6, 6, 0, 6},{1, 1, 1, 6, 6, 0, 6},{5, 5, 6, 3, 6, 0, 6},{4, 4, 4, 6, 4, 0, 6},{4, 4, 4, 6, 4, 0, 6},{5, 5, 6, 6, 6, 0, 6},{6, 6, 6, 6, 6, 0, 6}};
+   int estadoanterior = 0;
+   //int automata[7][7] = {{2, 1, 1, 6, 6, 0, 6},{1, 1, 1, 6, 6, 0, 6},{5, 5, 6, 3, 6, 0, 6},{4, 4, 4, 6, 4, 0, 6},{4, 4, 4, 6, 4, 0, 6},{5, 5, 6, 6, 6, 0, 6},{6, 6, 6, 6, 6, 0, 6}};
    
     FILE * archivoEntrada = fopen("entrada.txt","r+");
-    
     FILE * archivoSalida = fopen("salida.txt","w+");
     
    if(archivoEntrada == NULL){
@@ -27,40 +31,80 @@ int main(int argc, const char * argv[]) {
     }
     
     char caracter;
-    
-    while(feof(archivoEntrada) == 0) {
-        caracter = fgetc(archivoEntrada);
-        printf("%c", caracter); }
-   
-    
-    while(feof(archivoEntrada) == 0) {
-        caracter = fgetc(archivoEntrada);
-        //printf("%c",caracter);
 
-        if(fgetc(archivoEntrada) == ','){
-            if(ultimoEstado == 0 ) {printf("%s", "No hay palabra ");} else
-                if(ultimoEstado == 1)  {printf("%s", "Constante decimal ");} else
-                    if(ultimoEstado == 2)  {printf("%s", "Constante octal = a 0 ");} else
-                        if(ultimoEstado == 3)  {printf("%s", "Constante invalida ");} else
-                            if(ultimoEstado == 4){printf("%s", "Constante hexadecimal ");} else
-                                if(ultimoEstado == 5){printf("%s", "Constante octal ");} else
-                                    if(ultimoEstado == 5){printf("%s", "Constante hexadecimal");}
-        }
+
+
+
+while(!feof(archivoEntrada)){
+        caracter = fgetc(archivoEntrada);
         
+    aplicoAutomata (automata, caracter, &ultimoEstado, &estadoanterior);
 
-        aplicoAutomata (automata, caracter, ultimoEstado);
+    if (ultimoEstado == 0){
+        
+        switch (estadoanterior){
+        case 1:
+        fprintf(archivoSalida, "%s", "Constante decimal ");
+            break;
+        case 2:
+        fprintf(archivoSalida, "%s", "Constante octal ");
+            break;
+        case 3:
+        fprintf(archivoSalida, "%s", "Constante invalida ");
+            break;
+        case 4:
+        fprintf(archivoSalida, "%s", "Constante hexadecimal ");
+            break;
+        case 5:
+        fprintf(archivoSalida, "%s", "Constante octal ");
+            break;
+        case 6:
+        fprintf(archivoSalida, "%s", "Constante hexadecimal");
+            break;
+        default:
+        break;
+    }
+}    
 
-            }
-    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    fclose(archivoEntrada);
+    fclose(archivoSalida);
     
     return 0;
-            }
+}//llave del main
 
 
-
-
-
-void aplicoAutomata (int M[][7], char a, int b){
+void aplicoAutomata (int M[][7], char a, int* b, int* c){
     int i = 0;
     int j = 0;
     if (a == '0'){j = 0;} else
@@ -68,9 +112,8 @@ void aplicoAutomata (int M[][7], char a, int b){
     if (a == '8' || a == '9'){j = 2;} else
     if (a == 'x' || a == 'X'){ j = 3;} else
     if (a == 'a' || a == 'b' || a == 'c' || a == 'd' || a == 'e' || a == 'f' || a == 'A' || a == 'B' || a == 'C' || a == 'D' || a == 'E' || a == 'F'){ j = 4;} else
-    if (a == ','){ j = 5;} else
+    if (a == ','){ *c = i = M[i][j];
+     j = 5;} else
         { j = 6;}
-    b = i = M[i][j];
-    
-    
+    *b = i = M[i][j];
 }
